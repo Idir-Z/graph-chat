@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New Chat</title>
+    <link rel="stylesheet" href="./index.css" />
+    <!-- <script src="//cdn.jsdelivr.net/npm/force-graph"></script> -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap"
+    />
+  </head>
+  <body>
+    <div class="app-layout">
+      <aside class="sidebar">
+        <!-- SIDEBAR HEADER -->
+        <header class="sidebar-header">
+          <a href="/" class="logo">Graph AI</a>
+          <button class="new-chat-button" type="button">+ New chat</button>
+        </header>
+
+        <!-- SIDEBAR CONTENT -->
+        <div class="sidebar-content">
+          <nav class="main-nav" aria-label="Main Navigation">
+            <a href="#" class="nav-item active">
+              
+              <span>Home</span>
+            </a>
+            <a href="#" class="nav-item">
+              
+              <span>Explore</span>
+            </a>
+          </nav>
+          <section class="conversation-section" aria-labelledby="recent-chats">
+            <h2 id="recent-chats">Recent chats</h2>
+            <ul class="conversation-list">
+              <li>
+                <a href="#" class="conversation-item">Understanding rag</a>
+              </li>
+              <li>
+                <a href="#" class="conversation-item">What is what</a>
+              </li>
+            </ul>
+          </section>
+        </div>
+
+        <!-- SIDEBAR FOOTER -->
+        <footer class="sidebar-footer">
+          <button class="profile-button" type="button">
+            <span class="avatar">A</span>
+            <span class="profile-info">
+              <span class="profile-name">Your name</span>
+              <span class="profile-email">you@example.com</span>
+            </span>
+
+            <span aria-hidden="true">⋯</span>
+          </button>
+        </footer>
+      </aside>
+
+      <main class="chat-container">
+        <p>Chat area</p>
+      </main>
+    </div>
+  </body>
+</html>

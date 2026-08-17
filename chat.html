@@ -10,6 +10,7 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap"
     />
+    <script src="//cdn.jsdelivr.net/npm/force-graph"></script>
   </head>
   <body>
     <div class="app-layout">
@@ -23,13 +24,11 @@
         <!-- SIDEBAR CONTENT -->
         <div class="sidebar-content">
           <nav class="main-nav" aria-label="Main Navigation">
-            <a href="#" class="nav-item active">
-              
+            <a href="/" class="nav-item">
               <span>Home</span>
             </a>
-            <a href="#" class="nav-item">
-              
-              <span>Explore</span>
+            <a href="#" class="nav-item active">
+              <span>Graph View</span>
             </a>
           </nav>
           <section class="conversation-section" aria-labelledby="recent-chats">
@@ -48,20 +47,77 @@
         <!-- SIDEBAR FOOTER -->
         <footer class="sidebar-footer">
           <button class="profile-button" type="button">
-            <span class="avatar">A</span>
+            <span class="avatar"><div>A</div></span>
             <span class="profile-info">
               <span class="profile-name">Your name</span>
               <span class="profile-email">you@example.com</span>
             </span>
 
-            <span aria-hidden="true">⋯</span>
+            <span aria-hidden="true" id="profile-more">⋯</span>
           </button>
         </footer>
       </aside>
 
       <main class="chat-container">
-        <p>Chat area</p>
+        <div id="graph"></div>
       </main>
     </div>
   </body>
+  <script type="module">
+    import { csvParse } from "https://esm.sh/d3-dsv";
+    import { forceCollide } from "https://esm.sh/d3-force";
+
+    // graph config
+    const NODE_REL_SIZE = 3;
+    const graph = new ForceGraph(document.getElementById("graph"))
+      .dagMode(null)
+      .dagLevelDistance(10)
+      //   .backgroundColor("#101020")
+      .linkColor(() => "rgba(255,255,255,0.9)")
+      .nodeRelSize(NODE_REL_SIZE)
+      .nodeId("path")
+      .nodeVal((node) => 100 / (node.level + 1))
+      .nodeLabel("path")
+      .nodeAutoColorBy("module")
+      .linkDirectionalParticles(2)
+      .linkDirectionalParticleWidth(8)
+      .d3Force(
+        "collision",
+        forceCollide(
+          (node) => Math.sqrt(800 / (node.level + 1)) * NODE_REL_SIZE
+        )
+      )
+      .d3VelocityDecay(0.3);
+
+    fetch("./d3-dependencies.csv")
+      .then((r) => r.text())
+      .then(csvParse)
+      .then((data) => {
+        const nodes = [],
+          links = [];
+        data.forEach(({ size, path }) => {
+          const levels = path.split("/"),
+            level = levels.length - 1,
+            module = level > 0 ? levels[1] : null,
+            leaf = levels.pop(),
+            parent = levels.join("/");
+
+          const node = {
+            path,
+            leaf,
+            module,
+            size: +size || 20,
+            level,
+          };
+
+          nodes.push(node);
+
+          if (parent) {
+            links.push({ source: parent, target: path, targetNode: node });
+          }
+        });
+
+        graph.graphData({ nodes, links });
+      });
+  </script>
 </html>

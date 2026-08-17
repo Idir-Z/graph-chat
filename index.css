@@ -116,6 +116,7 @@ button {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .chat-container {
@@ -146,10 +147,7 @@ button {
   background-color: var(--dominant-color);
   color: var(--text-color);
 }
-.new-chat-button:hover,
-.profile-button:hover {
-  background-color: var(--accent-color);
-}
+
 .conversation-section h2 {
   margin: 0 10px 8px;
   color: #737373;
@@ -195,6 +193,16 @@ button {
   font: inherit;
   text-align: left;
   cursor: pointer;
+}
+.avatar {
+  border: 2px solid var(--accent-color);
+  padding: 1rem;
+  background-color: var(--secondary-color);
+  height: 1rem;
+  width: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @media (max-width: 768px) {
